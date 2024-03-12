@@ -14,7 +14,7 @@ This is a To Do App combing what I perceived to be the best features from popula
 
 ## Preview
 
-![No image]()
+![No image](nourl)
 
 ## Features
 
