@@ -28,14 +28,15 @@ body {
   grid-template-columns: 1fr 5px;
 
   background-color: grey;
-  width: 600px;
-  resize: horizontal;
-  overflow: auto;
-  border: 1px solid black;
+  width: 400px;
 
   .sidebar-handle {
-    background-color: pink;
     cursor: col-resize;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: color-mix(in srgb, grey, black 50%);
+    }
   }
 }
 
