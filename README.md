@@ -2,15 +2,25 @@
 
 Technologies used:
 
-- Webpack
 - HTML
 - Sass
 - CSS
 - Javascript
+- Jest
+- Babel
+- Webpack
 
 ## Description
 
 This is a To Do App combing what I perceived to be the best features from popular to do applications into one application.
+
+## Installation
+
+```shell
+git clone git@github.com:KojinKuro/todo-app.git
+npm install
+npm run start
+```
 
 ## Preview
 
