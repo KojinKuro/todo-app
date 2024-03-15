@@ -12,8 +12,8 @@ function saveTask(task) {
 }
 
 export function createTask(title, description, dueDate = -1, priority = 1) {
-  let task = { title, description, dueDate, priority, completed: false };
-  return task;
+  if (title == undefined) throw new Error("Must provide a task title!");
+  return { title, description, dueDate, priority, completed: false };
 }
 
 export function completeTask(task) {
