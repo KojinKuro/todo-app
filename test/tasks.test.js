@@ -1,4 +1,4 @@
-import { completeTask, createTask } from "../src/main";
+import { completeTask, createTask } from "../src/javascript/tasks";
 
 describe("Function tests", () => {
   beforeAll(() => {
