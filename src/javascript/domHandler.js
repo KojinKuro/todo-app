@@ -1,3 +1,4 @@
+import { clamp } from "./math.js";
 import { createTask, getTasks, saveTask } from "./tasks.js";
 
 const addTasksButton = document.querySelector(".add-tasks-button");
@@ -65,7 +66,6 @@ function displayTasks(element) {
 }
 
 function resize(e) {
-  const MAX_WIDTH = 600;
-  const width = e.x >= MAX_WIDTH ? MAX_WIDTH : e.x;
+  const width = clamp(e.x, 200, 600);
   sidebar.style.width = `${width}px`;
 }
