@@ -10,8 +10,6 @@ export function getTasks() {
 }
 
 export function createTask(title, description, dueDate = -1, priority = 1) {
-  if (title == undefined || title == "")
-    throw new Error("Must provide a task title!");
   return { title, description, dueDate, priority, completed: false };
 }
 

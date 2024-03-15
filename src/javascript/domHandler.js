@@ -3,8 +3,15 @@ import { createTask, getTasks, saveTask } from "./tasks.js";
 const addTasksButton = document.querySelector(".add-tasks-button");
 const tasksDisplay = document.querySelector(".tasks-display");
 const taskForm = document.querySelector("form.tasks-form");
+const titleBox = taskForm.querySelector("input#title");
 
-addTasksButton.addEventListener("click", () => {
+const sidebar = document.querySelector(".sidebar");
+const handle = document.querySelector(".sidebar-handle");
+
+addTasksButton.addEventListener("click", (e) => {
+  if (addTasksButton.classList.contains("disabled")) return;
+  e.preventDefault();
+
   const taskData = extractTaskForm(taskForm);
   const task = createTask(
     taskData.title,
@@ -14,7 +21,23 @@ addTasksButton.addEventListener("click", () => {
   );
   saveTask(task);
   displayTasks(tasksDisplay);
+  addTasksButton.classList.add("disabled");
 });
+
+titleBox.addEventListener("input", (event) => addTaskEnable(event));
+
+handle.addEventListener("mousedown", (event) => {
+  document.addEventListener("mousemove", resize);
+  document.addEventListener("mouseup", () => {
+    document.removeEventListener("mousemove", resize);
+  });
+});
+
+function addTaskEnable(e) {
+  e.target.value === ""
+    ? addTasksButton.classList.add("disabled")
+    : addTasksButton.classList.remove("disabled");
+}
 
 function extractTaskForm(element) {
   const taskData = new FormData(element);
@@ -39,4 +62,10 @@ function displayTasks(element) {
     Due Date: ${task.dueDate}\n
     Priority: ${task.priority}\n`;
   });
+}
+
+function resize(e) {
+  const MAX_WIDTH = 600;
+  const width = e.x >= MAX_WIDTH ? MAX_WIDTH : e.x;
+  sidebar.style.width = `${width}px`;
 }

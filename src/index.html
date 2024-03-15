@@ -6,31 +6,34 @@
     <title>To-do App</title>
   </head>
   <body>
-    <nav>
-      <form class="tasks-form">
-        <div>
-          <input type="text" name="title" id="title" placeholder="Title" />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="description"
-            id="description"
-            placeholder="Description"
-          />
-        </div>
-        <div>
-          <label for="due-date">Due Date</label>
-          <input type="date" name="due-date" id="due-date" />
-          <label for="due-time">Due Time</label>
-          <input type="time" name="due-time" id="due-time" />
-        </div>
-        <div>
-          <label for="priority">Priority</label>
-          <input type="number" name="priority" id="priority" />
-        </div>
-      </form>
-      <button class="add-tasks-button">Add tasks button</button>
+    <nav class="sidebar">
+      <div>
+        <form class="tasks-form">
+          <div>
+            <input type="text" name="title" id="title" placeholder="Title" />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="description"
+              id="description"
+              placeholder="Description"
+            />
+          </div>
+          <div>
+            <label for="due-date">Due Date</label>
+            <input type="date" name="due-date" id="due-date" />
+            <label for="due-time">Due Time</label>
+            <input type="time" name="due-time" id="due-time" />
+          </div>
+          <div>
+            <label for="priority">Priority</label>
+            <input type="number" name="priority" id="priority" />
+          </div>
+          <button class="disabled add-tasks-button">Add tasks button</button>
+        </form>
+      </div>
+      <span class="sidebar-handle">
     </nav>
     <main class="tasks-display">
       <div>Tasks appear here</div>
