@@ -1,3 +1,16 @@
-p {
-  color: red;
+$sidebar-width: 600px;
+
+html,
+body {
+  height: 100vh;
+}
+
+body {
+  display: grid;
+  grid-template-columns: $sidebar-width 1fr;
+  grid-template-rows: 1fr;
+}
+
+nav {
+  background-color: grey;
 }
