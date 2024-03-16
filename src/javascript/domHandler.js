@@ -1,3 +1,4 @@
+import Sortable from "sortablejs";
 import { clamp } from "./math.js";
 import { createTask, getTasks, saveTask } from "./tasks.js";
 
@@ -5,6 +6,7 @@ const addTasksButton = document.querySelector(".add-tasks-button");
 const tasksDisplay = document.querySelector(".tasks-display");
 const taskForm = document.querySelector("form.tasks-form");
 const titleBox = taskForm.querySelector("input#title");
+const sortable = Sortable.create(tasksDisplay);
 
 const sidebar = document.querySelector(".sidebar");
 const handle = document.querySelector(".sidebar-handle");
