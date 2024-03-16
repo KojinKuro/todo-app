@@ -10,8 +10,8 @@ const sidebar = document.querySelector(".sidebar");
 const handle = document.querySelector(".sidebar-handle");
 
 addTasksButton.addEventListener("click", (e) => {
-  if (addTasksButton.classList.contains("disabled")) return;
   e.preventDefault();
+  if (addTasksButton.classList.contains("disabled")) return;
 
   const taskData = extractTaskForm(taskForm);
   const task = createTask(
