@@ -12,7 +12,10 @@ $text-deactivated-color: color-mix(
   $text-color
 );
 
-$sidebar-width: 600px;
+$task-title-size: 1.25rem;
+$task-description-size: 1rem;
+
+$sidebar-width: 300px;
 
 html,
 body {
@@ -24,13 +27,18 @@ body {
 }
 
 .sidebar {
-  display: grid;
-  grid-template-columns: 1fr 5px;
+  display: flex;
+  flex-shrink: 0;
 
   background-color: grey;
-  width: 400px;
+  width: $sidebar-width;
+
+  .sidebar-content {
+    flex-grow: 1;
+  }
 
   .sidebar-handle {
+    flex-basis: 5px;
     cursor: col-resize;
     transition: all 0.2s;
 
@@ -38,6 +46,55 @@ body {
       background-color: color-mix(in srgb, grey, black 50%);
     }
   }
+}
+
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  padding: 30px;
+}
+
+.tasks-display {
+  background-color: pink;
+  max-width: 800px;
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task {
+  width: 100%;
+  margin-bottom: 10px;
+  list-style: none;
+
+  .task-title {
+    font-size: $task-title-size;
+  }
+
+  .task-description {
+    font-size: $task-description-size;
+  }
+}
+
+.priority-1 {
+  color: black;
+}
+
+.priority-2 {
+  color: blue;
+}
+
+.priority-3 {
+  color: yellow;
+}
+
+.priority-4 {
+  color: red;
 }
 
 button {
