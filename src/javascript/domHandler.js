@@ -47,7 +47,7 @@ function extractTaskForm(element) {
   const description = taskData.get("description");
   const dueTime = `${taskData.get("due-date")} ${taskData.get("due-time")}`;
   const dueDate = new Date(dueTime);
-  const priority = +taskData.get("priority");
+  const priority = taskData.get("priority");
 
   taskForm.reset();
 
@@ -57,11 +57,24 @@ function extractTaskForm(element) {
 function displayTasks(element) {
   element.innerHTML = "";
   getTasks().forEach((task) => {
-    element.innerText += `
-    Title: ${task.title}\n
-    Description: ${task.description}\n
-    Due Date: ${task.dueDate}\n
-    Priority: ${task.priority}\n`;
+    const taskDiv = document.createElement("li");
+    taskDiv.classList.add("task");
+
+    const taskTitle = document.createElement("div");
+    taskTitle.classList.add("task-title");
+    taskTitle.innerText = `${task.title}`;
+    taskDiv.appendChild(taskTitle);
+
+    const taskDescription = document.createElement("div");
+    taskDescription.classList.add("task-description");
+    taskDescription.innerText = `${task.description}`;
+    taskDiv.appendChild(taskDescription);
+
+    // not doing anything with it right now
+    // task.dueDate
+
+    taskDiv.classList.add(task.priority);
+    element.appendChild(taskDiv);
   });
 }
 
