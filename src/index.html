@@ -6,34 +6,44 @@
     <title>To-do App</title>
   </head>
   <body>
-    <nav>
-      <form class="tasks-form">
-        <div>
-          <input type="text" name="title" id="title" placeholder="Title" />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="description"
-            id="description"
-            placeholder="Description"
-          />
-        </div>
-        <div>
-          <label for="due-date">Due Date</label>
-          <input type="date" name="due-date" id="due-date" />
-          <label for="due-time">Due Time</label>
-          <input type="time" name="due-time" id="due-time" />
-        </div>
-        <div>
-          <label for="priority">Priority</label>
-          <input type="number" name="priority" id="priority" />
-        </div>
-      </form>
-      <button class="add-tasks-button">Add tasks button</button>
+    <nav class="sidebar">
+      <div class="sidebar-content">
+        <form class="tasks-form">
+          <div>
+            <input type="text" name="title" id="title" placeholder="Title" />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="description"
+              id="description"
+              placeholder="Description"
+            />
+          </div>
+          <div>
+            <label for="due-date">Due Date</label>
+            <input type="date" name="due-date" id="due-date" />
+            <label for="due-time">Due Time</label>
+            <input type="time" name="due-time" id="due-time" />
+          </div>
+          <div>
+            <label for="priority">Priority</label>
+            <select name="priority" id="priority">
+              <option value="priority-1" selected>Priority 1</option>
+              <option value="priority-2">Priority 2</option>
+              <option value="priority-3">Priority 3</option>
+              <option value="priority-4">Priority 4</option>
+            </select>
+          </div>
+          <button class="disabled add-tasks-button">Add tasks button</button>
+        </form>
+      </div>
+      <span class="sidebar-handle">
     </nav>
-    <main class="tasks-display">
-      <div>Tasks appear here</div>
+    <main>
+      <ul class="tasks-display">
+        <div>Tasks appear here</div>
+      </ul>
     </main>
   </body>
 </html>

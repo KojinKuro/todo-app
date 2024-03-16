@@ -1,4 +1,21 @@
-$sidebar-width: 600px;
+$button-color: red;
+$text-color: white;
+$deactivated-color: black;
+$button-deactivated-color: color-mix(
+  in srgb,
+  $deactivated-color 60%,
+  $button-color
+);
+$text-deactivated-color: color-mix(
+  in srgb,
+  $deactivated-color 60%,
+  $text-color
+);
+
+$task-title-size: 1.25rem;
+$task-description-size: 1rem;
+
+$sidebar-width: 300px;
 
 html,
 body {
@@ -6,15 +23,92 @@ body {
 }
 
 body {
-  display: grid;
-  grid-template-columns: $sidebar-width 1fr;
-  grid-template-rows: 1fr;
+  display: flex;
 }
 
-nav {
+.sidebar {
+  display: flex;
+  flex-shrink: 0;
+
   background-color: grey;
+  width: $sidebar-width;
+
+  .sidebar-content {
+    flex-grow: 1;
+  }
+
+  .sidebar-handle {
+    flex-basis: 5px;
+    cursor: col-resize;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: color-mix(in srgb, grey, black 50%);
+    }
+  }
+}
+
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  padding: 30px;
+}
+
+.tasks-display {
+  background-color: pink;
+  max-width: 800px;
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task {
+  width: 100%;
+  margin-bottom: 10px;
+  list-style: none;
+
+  .task-title {
+    font-size: $task-title-size;
+  }
+
+  .task-description {
+    font-size: $task-description-size;
+  }
+}
+
+.priority-1 {
+  color: black;
+}
+
+.priority-2 {
+  color: blue;
+}
+
+.priority-3 {
+  color: yellow;
+}
+
+.priority-4 {
+  color: red;
+}
+
+button {
+  background-color: $button-color;
+  color: $text-color;
+  border: none;
+
+  cursor: pointer;
 }
 
 .disabled {
+  background-color: $button-deactivated-color;
+  color: $text-deactivated-color;
+  border: none;
+
   cursor: not-allowed;
 }

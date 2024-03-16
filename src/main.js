@@ -1,3 +1,3 @@
-import "./javascript/domHandler.js";
 import "normalize.css";
+import "./javascript/domHandler.js";
 import "./scss/style.scss";
