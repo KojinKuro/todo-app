@@ -22,6 +22,10 @@ export function createTask(title, description, dueDate = -1, priority = 1) {
   };
 }
 
+export function getTask(dataBase, id) {
+  return dataBase.find((task) => task.id === id);
+}
+
 export function removeTask(dataBase, id) {
   let removeIndex = dataBase.findIndex((task) => task.id === id);
   if (removeIndex !== -1) dataBase.splice(removeIndex, 1);
