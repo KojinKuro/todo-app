@@ -120,7 +120,7 @@ describe("Function tests", () => {
       expect(tasks.length).toBe(1000);
       removeTask(tasks, randomID);
       expect(tasks.length).toBe(999);
-      expect(tasks.find((task) => task.id === randomID)).toBeUndefined();
+      expect(getTask(tasks, randomID)).toBeUndefined();
     });
   });
 
