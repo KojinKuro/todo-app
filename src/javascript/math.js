@@ -8,7 +8,7 @@ export function randomNumber(min, max) {
   return randomNumber;
 }
 
-export function generateRandomID(identifierLength) {
+export function generateRandomID(identifierLength = 10) {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const numbers = "0123456789";
   const charString = alphabet.toLowerCase() + alphabet.toUpperCase() + numbers;
