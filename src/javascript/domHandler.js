@@ -22,14 +22,14 @@ addTasksButton.addEventListener("click", (e) => {
     taskData.dueDate,
     taskData.priority
   );
-  saveTask(task);
+  saveTask(getTasks(), task);
   displayTasks(tasksDisplay);
   addTasksButton.classList.add("disabled");
 });
 
 titleBox.addEventListener("input", (event) => addTaskEnable(event));
 
-handle.addEventListener("mousedown", (event) => {
+handle.addEventListener("mousedown", () => {
   document.addEventListener("mousemove", resize);
   document.addEventListener("mouseup", () => {
     document.removeEventListener("mousemove", resize);
