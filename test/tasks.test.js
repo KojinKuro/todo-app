@@ -55,7 +55,7 @@ describe("Function tests", () => {
       });
     });
 
-    it("Will autogenerate an ID", () => {
+    it("Will generate an ID on create", () => {
       expect(createTask()).toHaveProperty("id");
     });
 
@@ -67,6 +67,29 @@ describe("Function tests", () => {
 
     it("Will set task to incomplete on load", () => {
       expect(createTask("").completed).toEqual(false);
+    });
+  });
+
+  describe("Save task", () => {
+    it.skip("Will save a task", () => {
+      const tasks = [];
+      const someTask = createTask("Some task");
+      const newTasks = saveTask(tasks, someTask);
+
+      expect(tasks.length).toBe(0);
+      expect(newTasks.length).toBe(1);
+    });
+
+    it("Will not save the same task twice", () => {});
+  });
+
+  describe("Get a task", () => {
+    it.skip("Grab a task from an ID", () => {
+      // const tasks = [];
+      // for (let i = 0; i < 1000; ++i) saveTask(tasks, createTask());
+      // const randomIndex = randomNumber(0, tasks.length - 1);
+      // const randomID = tasks[randomIndex].id;
+      // getTask(dataBase, id);
     });
   });
 
@@ -90,11 +113,11 @@ describe("Function tests", () => {
       const randomIndex = randomNumber(0, tasks.length - 1);
       const randomID = tasks[randomIndex].id;
 
-      const newTasks = removeTask(tasks, randomID);
-      // make sure the new array is smaller by one
-      expect(newTasks.length).toBe(tasks.length - 1);
-      // search to make sure the id doesn't show up anymore
-      expect(newTasks.find((task) => task.id === randomID)).toBeUndefined();
+      const beforeRemoveLength = tasks.length;
+      removeTask(tasks, randomID);
+      const afterRemoveLength = tasks.length;
+      expect(afterRemoveLength).toBe(beforeRemoveLength - 1);
+      expect(tasks.find((task) => task.id === randomID)).toBeUndefined();
     });
   });
 
