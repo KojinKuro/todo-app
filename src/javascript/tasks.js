@@ -4,7 +4,8 @@ const tasks = [];
 global.tasks = tasks;
 
 export function saveTask(dataBase, task) {
-  dataBase.push(task);
+  const foundIndex = dataBase.findIndex((tsk) => tsk.id === task.id);
+  if (foundIndex === -1) dataBase.push(task);
 }
 
 export function getTasks() {

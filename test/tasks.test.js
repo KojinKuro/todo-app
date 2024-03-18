@@ -3,6 +3,7 @@ import { randomNumber } from "../src/javascript/math";
 import {
   completeTask,
   createTask,
+  getTask,
   removeTask,
   saveTask,
 } from "../src/javascript/tasks";
@@ -71,25 +72,25 @@ describe("Function tests", () => {
   });
 
   describe("Save task", () => {
-    it.skip("Will save a task", () => {
+    it("Will save a task", () => {
       const tasks = [];
       const someTask = createTask("Some task");
-      const newTasks = saveTask(tasks, someTask);
 
       expect(tasks.length).toBe(0);
-      expect(newTasks.length).toBe(1);
+      saveTask(tasks, someTask);
+      expect(tasks.length).toBe(1);
+      // make sure that you can find the task
+      expect(getTask(tasks, someTask.id)).toEqual(someTask);
     });
 
-    it("Will not save the same task twice", () => {});
-  });
+    it("Will not save the same task twice", () => {
+      const tasks = [];
+      const someTask = createTask("Some task");
 
-  describe("Get a task", () => {
-    it.skip("Grab a task from an ID", () => {
-      // const tasks = [];
-      // for (let i = 0; i < 1000; ++i) saveTask(tasks, createTask());
-      // const randomIndex = randomNumber(0, tasks.length - 1);
-      // const randomID = tasks[randomIndex].id;
-      // getTask(dataBase, id);
+      expect(tasks.length).toBe(0);
+      saveTask(tasks, someTask);
+      saveTask(tasks, someTask);
+      expect(tasks.length).toBe(1);
     });
   });
 
@@ -97,7 +98,10 @@ describe("Function tests", () => {
     it.todo("Add subtasks");
   });
 
-  describe("Change priority of tasks", () => {
+  describe("Change properties of tasks", () => {
+    it.todo("Change task title");
+    it.todo("Change task description");
+    it.todo("Change task due date");
     it.todo("Change task priority");
   });
 
@@ -113,10 +117,9 @@ describe("Function tests", () => {
       const randomIndex = randomNumber(0, tasks.length - 1);
       const randomID = tasks[randomIndex].id;
 
-      const beforeRemoveLength = tasks.length;
+      expect(tasks.length).toBe(1000);
       removeTask(tasks, randomID);
-      const afterRemoveLength = tasks.length;
-      expect(afterRemoveLength).toBe(beforeRemoveLength - 1);
+      expect(tasks.length).toBe(999);
       expect(tasks.find((task) => task.id === randomID)).toBeUndefined();
     });
   });
