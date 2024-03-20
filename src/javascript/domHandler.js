@@ -61,6 +61,7 @@ function displayTasks(element) {
   getTasks().forEach((task) => {
     const taskDiv = document.createElement("li");
     taskDiv.classList.add("task");
+    taskDiv.dataset.id = task.id;
 
     const taskTitle = document.createElement("div");
     taskTitle.classList.add("task-title");
