@@ -24,16 +24,12 @@ describe("Function tests", () => {
       const description = "Some description";
       const dueDate = new Date();
       const priority = 4;
-      const project = "Some project";
 
-      expect(
-        createTask(title, description, dueDate, priority, project)
-      ).toMatchObject({
+      expect(createTask(title, description, dueDate, priority)).toMatchObject({
         title,
         description,
         dueDate,
         priority,
-        project,
       });
     });
 
@@ -42,16 +38,12 @@ describe("Function tests", () => {
       const description = "This is a different description";
       const dueDate = new Date();
       const priority = 1;
-      const project = "Another project";
 
-      expect(
-        createTask(title, description, dueDate, priority, project)
-      ).toMatchObject({
+      expect(createTask(title, description, dueDate, priority)).toMatchObject({
         title,
         description,
         dueDate,
         priority,
-        project,
       });
     });
 
@@ -61,7 +53,6 @@ describe("Function tests", () => {
         description: undefined,
         dueDate: -1,
         priority: 1,
-        project: "inbox",
       });
     });
 

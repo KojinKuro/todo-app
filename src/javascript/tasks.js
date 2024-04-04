@@ -7,19 +7,12 @@ export function saveTask(database, task) {
   if (foundIndex === -1) database.push(task);
 }
 
-export function createTask(
-  title,
-  description,
-  dueDate = -1,
-  priority = 1,
-  project = "inbox"
-) {
+export function createTask(title, description, dueDate = -1, priority = 1) {
   return {
     title,
     description,
     dueDate,
     priority,
-    project,
     completed: false,
     id: generateRandomID(),
   };
