@@ -2,9 +2,9 @@ import { generateRandomID } from "./math.js";
 
 export const tasks = [];
 
-export function saveTask(dataBase, task) {
-  const foundIndex = dataBase.findIndex((tsk) => tsk.id === task.id);
-  if (foundIndex === -1) dataBase.push(task);
+export function saveTask(database, task) {
+  const foundIndex = database.findIndex((tsk) => tsk.id === task.id);
+  if (foundIndex === -1) database.push(task);
 }
 
 export function createTask(
@@ -25,13 +25,13 @@ export function createTask(
   };
 }
 
-export function getTask(dataBase, id) {
-  return dataBase.find((task) => task.id === id);
+export function getTask(database, id) {
+  return database.find((task) => task.id === id);
 }
 
-export function removeTask(dataBase, id) {
-  let removeIndex = dataBase.findIndex((task) => task.id === id);
-  if (removeIndex !== -1) dataBase.splice(removeIndex, 1);
+export function removeTask(database, id) {
+  let removeIndex = database.findIndex((task) => task.id === id);
+  if (removeIndex !== -1) database.splice(removeIndex, 1);
 }
 
 export function toggleTaskCompletion(task) {
