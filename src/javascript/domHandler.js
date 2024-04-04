@@ -1,6 +1,13 @@
 import Sortable from "sortablejs";
 import { clamp } from "./math.js";
-import { createTask, getTasks, saveTask } from "./tasks.js";
+import {
+  createTask,
+  getTask,
+  removeTask,
+  saveTask,
+  tasks,
+  toggleTaskCompletion,
+} from "./tasks.js";
 
 const addTasksButton = document.querySelector(".add-tasks-button");
 const tasksDisplay = document.querySelector(".tasks-display");
@@ -22,12 +29,34 @@ addTasksButton.addEventListener("click", (e) => {
     taskData.dueDate,
     taskData.priority
   );
-  saveTask(getTasks(), task);
-  displayTasks(tasksDisplay);
+  saveTask(tasks, task);
+  displayTasks(tasks, tasksDisplay);
   addTasksButton.classList.add("disabled");
 });
+tasksDisplay.addEventListener("click", (e) => {
+  if (!e.target.closest(".task")) return;
 
-titleBox.addEventListener("input", (event) => addTaskEnable(event));
+  const currentTask = e.target.closest(".task");
+  const task = getTask(tasks, currentTask.dataset.id);
+
+  if (e.target.closest("box-icon")) {
+    const boxIcon = e.target.closest("box-icon");
+    switch (boxIcon.getAttribute("name")) {
+      case "check-circle":
+      case "circle":
+        toggleTaskCompletion(task);
+        break;
+      case "edit":
+        console.log("clicked edit for", task.id);
+        break;
+      case "trash":
+        removeTask(tasks, task.id);
+        break;
+    }
+  }
+  displayTasks(tasks, tasksDisplay);
+});
+titleBox.addEventListener("input", (e) => addTaskEnable(e));
 
 handle.addEventListener("mousedown", () => {
   document.addEventListener("mousemove", resize);
@@ -56,27 +85,34 @@ function extractTaskForm(element) {
   return { title, description, dueDate, priority };
 }
 
-function displayTasks(element) {
+function displayTasks(database, element) {
   element.innerHTML = "";
-  getTasks().forEach((task) => {
+  database.forEach((task) => {
     const taskDiv = document.createElement("li");
     taskDiv.classList.add("task");
     taskDiv.dataset.id = task.id;
 
-    const taskTitle = document.createElement("div");
-    taskTitle.classList.add("task-title");
-    taskTitle.innerText = `${task.title}`;
-    taskDiv.appendChild(taskTitle);
+    const checkboxIcon = task.completed
+      ? "<box-icon type='solid' name='check-circle'></box-icon>"
+      : "<box-icon name='circle'></box-icon>";
 
-    const taskDescription = document.createElement("div");
-    taskDescription.classList.add("task-description");
-    taskDescription.innerText = `${task.description}`;
-    taskDiv.appendChild(taskDescription);
+    const completedClass = task.completed ? "completed" : "";
+
+    taskDiv.innerHTML = `
+    ${checkboxIcon}
+    <div class="task-info ${task.priority} ${completedClass}">
+      <div class="task-title">${task.title}</div>
+      <div class="task-description">${task.description}</div>
+    </div>
+    <div class="task-settings">
+      <box-icon name='edit' ></box-icon>
+      <box-icon name='trash'></box-icon>
+    </div>
+    `;
 
     // not doing anything with it right now
     // task.dueDate
 
-    taskDiv.classList.add(task.priority);
     element.appendChild(taskDiv);
   });
 }

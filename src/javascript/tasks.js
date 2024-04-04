@@ -1,15 +1,11 @@
 import { generateRandomID } from "./math.js";
 
-const tasks = [];
+export const tasks = [];
 global.tasks = tasks;
 
 export function saveTask(dataBase, task) {
   const foundIndex = dataBase.findIndex((tsk) => tsk.id === task.id);
   if (foundIndex === -1) dataBase.push(task);
-}
-
-export function getTasks() {
-  return tasks;
 }
 
 export function createTask(title, description, dueDate = -1, priority = 1) {
@@ -32,8 +28,8 @@ export function removeTask(dataBase, id) {
   if (removeIndex !== -1) dataBase.splice(removeIndex, 1);
 }
 
-export function completeTask(task) {
+export function toggleTaskCompletion(task) {
   const newTask = task;
-  newTask.completed = true;
+  newTask.completed = !newTask.completed;
   return newTask;
 }

@@ -1,21 +1,4 @@
-$button-color: red;
-$text-color: white;
-$deactivated-color: black;
-$button-deactivated-color: color-mix(
-  in srgb,
-  $deactivated-color 60%,
-  $button-color
-);
-$text-deactivated-color: color-mix(
-  in srgb,
-  $deactivated-color 60%,
-  $text-color
-);
-
-$task-title-size: 1.25rem;
-$task-description-size: 1rem;
-
-$sidebar-width: 300px;
+@import "variables";
 
 html,
 body {
@@ -72,12 +55,23 @@ main {
   margin-bottom: 10px;
   list-style: none;
 
+  display: grid;
+  grid-template-columns: 50px 1fr 100px;
+
   .task-title {
     font-size: $task-title-size;
   }
 
   .task-description {
     font-size: $task-description-size;
+  }
+
+  .task-settings {
+    justify-self: flex-end;
+  }
+
+  .completed {
+    text-decoration: line-through;
   }
 }
 

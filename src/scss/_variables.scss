@@ -1,0 +1,18 @@
+$button-color: red;
+$text-color: white;
+$deactivated-color: black;
+$button-deactivated-color: color-mix(
+  in srgb,
+  $deactivated-color 60%,
+  $button-color
+);
+$text-deactivated-color: color-mix(
+  in srgb,
+  $deactivated-color 60%,
+  $text-color
+);
+
+$task-title-size: 1.25rem;
+$task-description-size: 1rem;
+
+$sidebar-width: 300px;

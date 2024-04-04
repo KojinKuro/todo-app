@@ -1,11 +1,11 @@
 import { isEverythingUnique } from "../src/javascript/array";
 import { randomNumber } from "../src/javascript/math";
 import {
-  completeTask,
   createTask,
   getTask,
   removeTask,
   saveTask,
+  toggleTaskCompletion,
 } from "../src/javascript/tasks";
 
 describe("Function tests", () => {
@@ -94,9 +94,9 @@ describe("Function tests", () => {
     });
   });
 
-  describe("Add subtasks", () => {
-    it.todo("Add subtasks");
-  });
+  // describe("Add subtasks", () => {
+  //   it.todo("Add subtasks");
+  // });
 
   describe("Change properties of tasks", () => {
     it.todo("Change task title");
@@ -125,10 +125,17 @@ describe("Function tests", () => {
   });
 
   describe("Complete tasks", () => {
-    it("Complete a task", () => {
+    it("Toggle a task's completion", () => {
       const task = createTask("Do homework");
-      const newTask = completeTask(task);
-      expect(newTask.completed).toBe(true);
+      toggleTaskCompletion(task);
+      expect(task.completed).toBe(true);
+    });
+
+    it("Toggle a task's completion #2", () => {
+      const task = createTask("Do homework");
+      toggleTaskCompletion(task);
+      toggleTaskCompletion(task);
+      expect(task.completed).toBe(false);
     });
   });
 });
