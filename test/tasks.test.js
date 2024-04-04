@@ -1,3 +1,4 @@
+import { create, get } from "sortablejs";
 import { isEverythingUnique } from "../src/javascript/array";
 import { randomNumber } from "../src/javascript/math";
 import {
@@ -72,25 +73,33 @@ describe("Function tests", () => {
   });
 
   describe("Save task", () => {
-    it("Will save a task", () => {
-      const tasks = [];
-      const someTask = createTask("Some task");
+    let tasks, someTask, anotherTask;
+    beforeEach(() => {
+      tasks = [];
+      someTask = createTask("Some task");
+      anotherTask = createTask("Another task");
+    });
 
-      expect(tasks.length).toBe(0);
+    it("Will save a task to inbox by default", () => {
       saveTask(tasks, someTask);
-      expect(tasks.length).toBe(1);
-      // make sure that you can find the task
-      expect(getTask(tasks, someTask.id)).toEqual(someTask);
+      expect(tasks.inbox).toEqual([someTask]);
+    });
+
+    it("Will save another task to inbox by default", () => {
+      saveTask(tasks, anotherTask);
+      expect(tasks.inbox).toEqual([anotherTask]);
     });
 
     it("Will not save the same task twice", () => {
-      const tasks = [];
-      const someTask = createTask("Some task");
+      saveTask(tasks, someTask);
+      saveTask(tasks, someTask);
+      expect(tasks.inbox).toEqual([someTask]);
+    });
 
-      expect(tasks.length).toBe(0);
-      saveTask(tasks, someTask);
-      saveTask(tasks, someTask);
-      expect(tasks.length).toBe(1);
+    it("Will save to a certain project", () => {
+      saveTask(tasks, someTask, "swords");
+      saveTask(tasks, anotherTask, "swords");
+      expect(tasks.swords).toEqual([someTask, anotherTask]);
     });
   });
 
@@ -113,27 +122,53 @@ describe("Function tests", () => {
   describe("Remove Tasks", () => {
     it("Remove a task", () => {
       const tasks = [];
-      for (let i = 0; i < 1000; ++i) saveTask(tasks, createTask());
+      for (let i = 0; i < 10; ++i) saveTask(tasks, createTask());
+      const randomIndex = randomNumber(0, tasks.inbox.length - 1);
+      const randomTask = tasks.inbox[randomIndex];
+      const randomID = randomTask.id;
 
-      const randomIndex = randomNumber(0, tasks.length - 1);
-      const randomID = tasks[randomIndex].id;
+      expect(tasks.inbox.length).toBe(10);
+      expect(getTask(tasks, randomID)).toEqual(randomTask);
 
-      expect(tasks.length).toBe(1000);
       removeTask(tasks, randomID);
-      expect(tasks.length).toBe(999);
+
+      expect(tasks.inbox.length).toBe(9);
+      expect(getTask(tasks, randomID)).toBeUndefined();
+    });
+
+    it("Remove a task from any project", () => {
+      const tasks = [];
+      for (let i = 0; i < 5; ++i) {
+        saveTask(tasks, createTask(), "games");
+        saveTask(tasks, createTask(), "swords");
+        saveTask(tasks, createTask(), "gems");
+      }
+
+      const projectList = ["games", "swords", "gems"];
+      const randomProject =
+        projectList[randomNumber(0, projectList.length - 1)];
+      const randomIndex = randomNumber(0, tasks[randomProject].length - 1);
+      const randomTask = tasks[randomProject][randomIndex];
+      const randomID = randomTask.id;
+
+      expect(getTask(tasks, randomID)).toEqual(randomTask);
+      removeTask(tasks, randomID);
       expect(getTask(tasks, randomID)).toBeUndefined();
     });
   });
 
   describe("Complete tasks", () => {
+    let task;
+    beforeEach(() => {
+      task = createTask("Do homework");
+    });
+
     it("Toggle a task's completion", () => {
-      const task = createTask("Do homework");
       toggleTaskCompletion(task);
       expect(task.completed).toBe(true);
     });
 
     it("Toggle a task's completion #2", () => {
-      const task = createTask("Do homework");
       toggleTaskCompletion(task);
       toggleTaskCompletion(task);
       expect(task.completed).toBe(false);
