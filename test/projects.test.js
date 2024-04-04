@@ -1,18 +1,22 @@
-import { addProject, getProjects } from "../src/javascript/projects";
+import {
+  addProject,
+  getProjects,
+  mergeProjects,
+} from "../src/javascript/projects";
 
 describe("Projects", () => {
   let database, database2;
 
   beforeEach(() => {
     database = {
-      inbox: [],
+      inbox: [1, 2, 3],
       art: [],
-      "more art": [],
+      "more art": [4, 5],
     };
 
     database2 = {
-      taco: [],
-      "🥺": [],
+      taco: [6, 7],
+      "🥺": [8],
     };
   });
 
@@ -35,5 +39,20 @@ describe("Projects", () => {
     addProject(database2, "degree");
     addProject(database2, "sword");
     expect(Object.keys(database2)).toEqual(["taco", "🥺", "degree", "sword"]);
+  });
+
+  it("Move project", () => {
+    mergeProjects(database2, "taco", "🥺");
+    expect(database2).toEqual({
+      "🥺": [8, 6, 7],
+    });
+  });
+
+  it("Move project #2", () => {
+    mergeProjects(database, "inbox", "art");
+    expect(database).toEqual({
+      art: [1, 2, 3],
+      "more art": [4, 5],
+    });
   });
 });
