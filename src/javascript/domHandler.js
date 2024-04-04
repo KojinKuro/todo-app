@@ -27,7 +27,8 @@ addTasksButton.addEventListener("click", (e) => {
     taskData.title,
     taskData.description,
     taskData.dueDate,
-    taskData.priority
+    taskData.priority,
+    taskData.project
   );
   saveTask(tasks, task);
   displayTasks(tasks, tasksDisplay);
@@ -38,6 +39,8 @@ tasksDisplay.addEventListener("click", (e) => {
 
   const currentTask = e.target.closest(".task");
   const task = getTask(tasks, currentTask.dataset.id);
+
+  console.log(task);
 
   if (e.target.closest("box-icon")) {
     const boxIcon = e.target.closest("box-icon");
@@ -79,10 +82,11 @@ function extractTaskForm(element) {
   const dueTime = `${taskData.get("due-date")} ${taskData.get("due-time")}`;
   const dueDate = new Date(dueTime);
   const priority = taskData.get("priority");
+  const project = taskData.get("project");
 
   taskForm.reset();
 
-  return { title, description, dueDate, priority };
+  return { title, description, dueDate, priority, project };
 }
 
 function displayTasks(database, element) {
@@ -116,6 +120,8 @@ function displayTasks(database, element) {
     element.appendChild(taskDiv);
   });
 }
+
+function makeForm(task) {}
 
 function resize(e) {
   const width = clamp(e.x, 200, 600);

@@ -1,19 +1,25 @@
 import { generateRandomID } from "./math.js";
 
 export const tasks = [];
-global.tasks = tasks;
 
 export function saveTask(dataBase, task) {
   const foundIndex = dataBase.findIndex((tsk) => tsk.id === task.id);
   if (foundIndex === -1) dataBase.push(task);
 }
 
-export function createTask(title, description, dueDate = -1, priority = 1) {
+export function createTask(
+  title,
+  description,
+  dueDate = -1,
+  priority = 1,
+  project = "inbox"
+) {
   return {
     title,
     description,
     dueDate,
     priority,
+    project,
     completed: false,
     id: generateRandomID(),
   };

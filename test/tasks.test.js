@@ -24,12 +24,16 @@ describe("Function tests", () => {
       const description = "Some description";
       const dueDate = new Date();
       const priority = 4;
+      const project = "Some project";
 
-      expect(createTask(title, description, dueDate, priority)).toMatchObject({
-        title: "Some Task",
-        description: "Some description",
-        dueDate: new Date(),
-        priority: 4,
+      expect(
+        createTask(title, description, dueDate, priority, project)
+      ).toMatchObject({
+        title,
+        description,
+        dueDate,
+        priority,
+        project,
       });
     });
 
@@ -38,12 +42,16 @@ describe("Function tests", () => {
       const description = "This is a different description";
       const dueDate = new Date();
       const priority = 1;
+      const project = "Another project";
 
-      expect(createTask(title, description, dueDate, priority)).toMatchObject({
-        title: "New Task",
-        description: "This is a different description",
-        dueDate: new Date(),
-        priority: 1,
+      expect(
+        createTask(title, description, dueDate, priority, project)
+      ).toMatchObject({
+        title,
+        description,
+        dueDate,
+        priority,
+        project,
       });
     });
 
@@ -53,6 +61,7 @@ describe("Function tests", () => {
         description: undefined,
         dueDate: -1,
         priority: 1,
+        project: "inbox",
       });
     });
 
@@ -103,6 +112,7 @@ describe("Function tests", () => {
     it.todo("Change task description");
     it.todo("Change task due date");
     it.todo("Change task priority");
+    it.todo("Change task project");
   });
 
   describe("Filter tasks", () => {
