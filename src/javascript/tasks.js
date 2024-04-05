@@ -2,6 +2,7 @@ import { generateRandomID } from "./math.js";
 import { addProject } from "./projects.js";
 
 export const tasks = [];
+global.tasks = tasks;
 
 export function saveTask(database, task, project = "inbox") {
   addProject(database, project);
