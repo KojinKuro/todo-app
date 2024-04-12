@@ -1,7 +1,7 @@
 import { generateRandomID } from "./math.js";
 import { addProject } from "./projects.js";
 
-export const tasks = [];
+export const tasks = { inbox: [] };
 global.tasks = tasks;
 
 export function saveTask(database, task, project = "inbox") {
