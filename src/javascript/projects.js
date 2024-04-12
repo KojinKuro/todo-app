@@ -11,6 +11,7 @@ export function mergeProjects(database, originalProject, targetProject) {
   removeProject(database, originalProject);
 }
 
-function removeProject(database, project) {
+export function removeProject(database, project) {
   delete database[project];
+  if (project === "inbox") addProject(database, project);
 }

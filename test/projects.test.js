@@ -2,6 +2,7 @@ import {
   addProject,
   getProjects,
   mergeProjects,
+  removeProject,
 } from "../src/javascript/projects";
 
 describe("Projects", () => {
@@ -41,6 +42,25 @@ describe("Projects", () => {
     expect(Object.keys(database2)).toEqual(["taco", "🥺", "degree", "sword"]);
   });
 
+  it("Remove Project from database", () => {
+    removeProject(database, "art");
+    expect(database).toEqual({ inbox: [1, 2, 3], "more art": [4, 5] });
+    removeProject(database, "more art");
+    expect(database).toEqual({ inbox: [1, 2, 3] });
+  });
+
+  it("Remove Projects from different database", () => {
+    removeProject(database2, "🥺");
+    expect(database2).toEqual({ taco: [6, 7] });
+    removeProject(database2, "taco");
+    expect(database2).toEqual({});
+  });
+
+  it("Cannot remove inbox", () => {
+    removeProject(database, "inbox");
+    expect(database).toEqual({ inbox: [], art: [], "more art": [4, 5] });
+  });
+
   it("Move project", () => {
     mergeProjects(database2, "taco", "🥺");
     expect(database2).toEqual({
@@ -48,9 +68,10 @@ describe("Projects", () => {
     });
   });
 
-  it("Move project #2", () => {
+  it("Moving from inbox keeps inbox", () => {
     mergeProjects(database, "inbox", "art");
     expect(database).toEqual({
+      inbox: [],
       art: [1, 2, 3],
       "more art": [4, 5],
     });
