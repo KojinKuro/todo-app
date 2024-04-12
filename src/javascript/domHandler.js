@@ -128,6 +128,8 @@ function updateProjects(database) {
     projectsDisplay.innerHTML += `<li>${project}</li>`;
     projectSelect.innerHTML += `<option value="${project}">${project}</option>`;
   });
+  projectsDisplay.innerHTML +=
+    '<li><button class="add-projects-button">Add projects</button></li>';
 }
 
 // todo: update this to not require an element parameter and just return it
