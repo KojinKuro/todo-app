@@ -21,18 +21,99 @@ const taskForm = document.querySelector("form.tasks-form");
 const titleBox = taskForm.querySelector("input#title");
 const sortable = Sortable.create(tasksDisplay);
 
-const html = document.querySelector("html");
 const sidebar = document.querySelector(".sidebar");
 const sidebarContent = document.querySelector(".sidebar-content");
 const handle = document.querySelector(".sidebar-handle");
 
 const modalProject = document.querySelector(".projects-modal");
 const modalsContainer = document.querySelector(".modals-container");
+const projectInput = document.querySelector("#project-input");
 
+const init = () => {
+  updateProjects(tasks);
+  updateTasks(tasks);
+};
+
+const extractTaskForm = (element) => {
+  const taskData = new FormData(element);
+
+  const title = taskData.get("title");
+  const description = taskData.get("description");
+  const dueTime = `${taskData.get("due-date")} ${taskData.get("due-time")}`;
+  const dueDate = new Date(dueTime);
+  const priority = taskData.get("priority");
+  const project = taskData.get("project");
+
+  taskForm.reset();
+
+  return { title, description, dueDate, priority, project };
+};
+
+const updateProjects = (database) => {
+  projectsDisplay.innerHTML = "";
+  projectSelect.innerHTML = "";
+  getProjects(database).forEach((project) => {
+    projectsDisplay.innerHTML += `<li>${project}</li>`;
+    projectSelect.innerHTML += `<option value="${project}">${project}</option>`;
+  });
+  projectsDisplay.innerHTML +=
+    '<li><button class="add-projects-button">Add projects</button></li>';
+};
+
+// todo: update this to not require an element parameter and just return it
+const updateTasks = (function () {
+  let currentProject = "inbox";
+
+  return function (database, project) {
+    if (!project) project = currentProject;
+    else currentProject = project;
+    if (!Object.keys(database).includes(project))
+      throw Error("Not a valid project");
+
+    tasksDisplay.innerHTML = `<h1>${project}</h1>`;
+    database[project].forEach((task) => {
+      const taskDiv = document.createElement("li");
+      taskDiv.classList.add("task");
+      taskDiv.dataset.id = task.id;
+
+      const checkboxIcon = task.completed
+        ? "<box-icon type='solid' name='check-circle'></box-icon>"
+        : "<box-icon name='circle'></box-icon>";
+
+      const completedClass = task.completed ? "completed" : "";
+
+      taskDiv.innerHTML = `
+        ${checkboxIcon}
+        <div class="task-info ${task.priority} ${completedClass}">
+          <div class="task-title">${task.title}</div>
+          <div class="task-description">${task.description}</div>
+        </div>
+        <div class="task-settings">
+          <box-icon name='edit' ></box-icon>
+          <box-icon name='trash'></box-icon>
+        </div>
+        `;
+
+      // not doing anything with it right now
+      // task.dueDate
+
+      tasksDisplay.appendChild(taskDiv);
+    });
+  };
+})();
+
+const resize = (e) => {
+  const width = clamp(e.x, 200, 600);
+  sidebar.style.width = `${width}px`;
+};
+
+// EVENT LISTENERS
 addEventListener("load", init);
 sidebarContent.addEventListener("click", (e) => {
   e.preventDefault();
-  if (e.target.classList.contains("add-tasks-button")) {
+
+  if (e.target.classList.contains("project")) {
+  } else if (e.target.classList.contains("add-tasks-button")) {
     if (e.target.classList.contains("disabled")) return;
 
     const taskData = extractTaskForm(taskForm);
@@ -43,7 +124,7 @@ sidebarContent.addEventListener("click", (e) => {
       taskData.priority
     );
     saveTask(tasks, task, taskData.project);
-    displayTasks(tasks);
+    updateTasks(tasks);
     addTasksButton.classList.add("disabled");
   } else if (e.target.classList.contains("add-projects-button")) {
     console.log("added a project");
@@ -52,7 +133,7 @@ sidebarContent.addEventListener("click", (e) => {
 });
 modalsContainer.addEventListener("click", (e) => {
   e.preventDefault();
-  const projectInput = document.querySelector("#project");
+
   if (e.target.classList.contains("projects-submit-button")) {
     addProject(tasks, projectInput.value);
     projectInput.value = "";
@@ -85,93 +166,16 @@ tasksDisplay.addEventListener("click", (e) => {
         break;
     }
   }
-  displayTasks(tasks);
+  updateTasks(tasks);
 });
-titleBox.addEventListener("input", (e) => enableAddTask(e));
-
+titleBox.addEventListener("input", (e) => {
+  e.target.value === ""
+    ? addTasksButton.classList.add("disabled")
+    : addTasksButton.classList.remove("disabled");
+});
 handle.addEventListener("mousedown", () => {
   document.addEventListener("mousemove", resize);
   document.addEventListener("mouseup", () => {
     document.removeEventListener("mousemove", resize);
   });
 });
-
-function init() {
-  updateProjects(tasks);
-  displayTasks(tasks);
-}
-
-function enableAddTask(e) {
-  e.target.value === ""
-    ? addTasksButton.classList.add("disabled")
-    : addTasksButton.classList.remove("disabled");
-}
-
-function extractTaskForm(element) {
-  const taskData = new FormData(element);
-
-  const title = taskData.get("title");
-  const description = taskData.get("description");
-  const dueTime = `${taskData.get("due-date")} ${taskData.get("due-time")}`;
-  const dueDate = new Date(dueTime);
-  const priority = taskData.get("priority");
-  const project = taskData.get("project");
-
-  taskForm.reset();
-
-  return { title, description, dueDate, priority, project };
-}
-
-function updateProjects(database) {
-  projectsDisplay.innerHTML = "";
-  projectSelect.innerHTML = "";
-  getProjects(database).forEach((project) => {
-    projectsDisplay.innerHTML += `<li>${project}</li>`;
-    projectSelect.innerHTML += `<option value="${project}">${project}</option>`;
-  });
-  projectsDisplay.innerHTML +=
-    '<li><button class="add-projects-button">Add projects</button></li>';
-}
-
-// todo: update this to not require an element parameter and just return it
-function displayTasks(database, project = "inbox") {
-  if (!Object.keys(database).includes(project)) {
-    throw Error("Not a valid project");
-  }
-
-  tasksDisplay.innerHTML = `<h1>${project}</h1>`;
-
-  database[project].forEach((task) => {
-    const taskDiv = document.createElement("li");
-    taskDiv.classList.add("task");
-    taskDiv.dataset.id = task.id;
-
-    const checkboxIcon = task.completed
-      ? "<box-icon type='solid' name='check-circle'></box-icon>"
-      : "<box-icon name='circle'></box-icon>";
-
-    const completedClass = task.completed ? "completed" : "";
-
-    taskDiv.innerHTML = `
-      ${checkboxIcon}
-      <div class="task-info ${task.priority} ${completedClass}">
-        <div class="task-title">${task.title}</div>
-        <div class="task-description">${task.description}</div>
-      </div>
-      <div class="task-settings">
-        <box-icon name='edit' ></box-icon>
-        <box-icon name='trash'></box-icon>
-      </div>
-      `;
-
-    // not doing anything with it right now
-    // task.dueDate
-
-    tasksDisplay.appendChild(taskDiv);
-  });
-}
-
-function resize(e) {
-  const width = clamp(e.x, 200, 600);
-  sidebar.style.width = `${width}px`;
-}
