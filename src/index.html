@@ -34,13 +34,22 @@
             </select>
           </div>
           <div>
-            <label for="project">Project</label>
-            <select name="project" id="project">
+            <label for="project-select">Project</label>
+            <select name="project" id="project-select">
               <option value="inbox" selected>Inbox</option>
             </select>
           </div>
           <button class="disabled add-tasks-button">Add tasks button</button>
         </form>
+        <hr>
+        <div>
+          <h1>Projects</h1>
+          <ul class="projects-display">
+            <li>inbox</li>
+            <li>project #1</li>
+          </ul>
+          <button class="add-projects-button">Add projects</button>
+        </div>
       </div>
       <span class="sidebar-handle">
     </nav>
@@ -49,5 +58,18 @@
         <div>Tasks appear here</div>
       </ul>
     </main>
+    <!-- modal boxes -->
+    <div class="modals-container">
+      <dialog class="projects-modal">
+        <form>
+          <label for="project">Project</label>
+          <input type="text" name="project" id="project">
+          <div>
+            <button class="projects-submit-button">Submit</button>
+            <button class="projects-cancel-button">Cancel</button>
+          </div>
+        </form>
+      </dialog>
+    </div>
   </body>
 </html>
