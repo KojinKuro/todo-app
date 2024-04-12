@@ -69,9 +69,9 @@ const updateTasks = (function () {
 
   return function (database, project) {
     if (!project) project = currentProject;
-    else currentProject = project;
     if (!Object.keys(database).includes(project))
       throw Error("Not a valid project");
+    else currentProject = project;
 
     tasksDisplay.innerHTML = `<h1>${project}</h1>`;
     database[project].forEach((task) => {
@@ -131,7 +131,6 @@ sidebarContent.addEventListener("click", (e) => {
     updateTasks(tasks);
     addTasksButton.classList.add("disabled");
   } else if (e.target.classList.contains("add-projects-button")) {
-    console.log("added a project");
     modalProject.showModal();
   }
 });
