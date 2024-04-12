@@ -43,7 +43,7 @@ sidebarContent.addEventListener("click", (e) => {
       taskData.priority
     );
     saveTask(tasks, task, taskData.project);
-    displayTasks(tasks, tasksDisplay);
+    displayTasks(tasks);
     addTasksButton.classList.add("disabled");
   } else if (e.target.classList.contains("add-projects-button")) {
     console.log("added a project");
@@ -85,7 +85,7 @@ tasksDisplay.addEventListener("click", (e) => {
         break;
     }
   }
-  displayTasks(tasks, tasksDisplay);
+  displayTasks(tasks);
 });
 titleBox.addEventListener("input", (e) => enableAddTask(e));
 
@@ -98,6 +98,7 @@ handle.addEventListener("mousedown", () => {
 
 function init() {
   updateProjects(tasks);
+  displayTasks(tasks);
 }
 
 function enableAddTask(e) {
@@ -133,21 +134,25 @@ function updateProjects(database) {
 }
 
 // todo: update this to not require an element parameter and just return it
-function displayTasks(database, element) {
-  element.innerHTML = "";
-  for (const project in database) {
-    database[project].forEach((task) => {
-      const taskDiv = document.createElement("li");
-      taskDiv.classList.add("task");
-      taskDiv.dataset.id = task.id;
+function displayTasks(database, project = "inbox") {
+  if (!Object.keys(database).includes(project)) {
+    throw Error("Not a valid project");
+  }
 
-      const checkboxIcon = task.completed
-        ? "<box-icon type='solid' name='check-circle'></box-icon>"
-        : "<box-icon name='circle'></box-icon>";
+  tasksDisplay.innerHTML = `<h1>${project}</h1>`;
 
-      const completedClass = task.completed ? "completed" : "";
+  database[project].forEach((task) => {
+    const taskDiv = document.createElement("li");
+    taskDiv.classList.add("task");
+    taskDiv.dataset.id = task.id;
 
-      taskDiv.innerHTML = `
+    const checkboxIcon = task.completed
+      ? "<box-icon type='solid' name='check-circle'></box-icon>"
+      : "<box-icon name='circle'></box-icon>";
+
+    const completedClass = task.completed ? "completed" : "";
+
+    taskDiv.innerHTML = `
       ${checkboxIcon}
       <div class="task-info ${task.priority} ${completedClass}">
         <div class="task-title">${task.title}</div>
@@ -159,12 +164,11 @@ function displayTasks(database, element) {
       </div>
       `;
 
-      // not doing anything with it right now
-      // task.dueDate
+    // not doing anything with it right now
+    // task.dueDate
 
-      element.appendChild(taskDiv);
-    });
-  }
+    tasksDisplay.appendChild(taskDiv);
+  });
 }
 
 function resize(e) {
