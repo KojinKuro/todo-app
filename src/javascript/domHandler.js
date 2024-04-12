@@ -53,7 +53,10 @@ const updateProjects = (database) => {
   projectsDisplay.innerHTML = "";
   projectSelect.innerHTML = "";
   getProjects(database).forEach((project) => {
-    projectsDisplay.innerHTML += `<li>${project}</li>`;
+    projectsDisplay.innerHTML += `
+    <li class="project" data-project="${project}">
+      ${project}
+    </li>`;
     projectSelect.innerHTML += `<option value="${project}">${project}</option>`;
   });
   projectsDisplay.innerHTML +=
@@ -113,6 +116,7 @@ sidebarContent.addEventListener("click", (e) => {
   e.preventDefault();
 
   if (e.target.classList.contains("project")) {
+    updateTasks(tasks, e.target.dataset.project);
   } else if (e.target.classList.contains("add-tasks-button")) {
     if (e.target.classList.contains("disabled")) return;
 
